@@ -1,8 +1,10 @@
-package ru.GeekBrains.Voronyuk00.FamilyTree;
+package ru.GeekBrains.Voronyuk00.Family;
+
+import java.io.IOException;
 
 public class App {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException, ClassNotFoundException {
 		// TODO Auto-generated method stub
 		Human person1  = new Human("Анна", "Воронюк",1971,7,29,Gender.female);
 		Human person2 = new Human("Евгений","Воронюк",1967,5,9,Gender.male);
@@ -29,15 +31,31 @@ public class App {
 		person4.addMother(person2);
 		person1.addMother(person5);
 		
-		System.out.println(person5 + " Возраст " + person5.getAge());
+//		System.out.println(person5 + " Возраст " + person5.getAge());
 		
 		person5.addChild(person1);
 		person5.showChildren();
 		
-		familyList.searchPerson("Алексей","Воронюк");
-		familyList.searchPerson("Иван","Высоцкий");
+//		System.out.println(familyList.searchPerson("Алексей","Воронюк"));
+//		System.out.println(familyList.searchPerson("Иван","Высоцкий"));
+//		System.out.println(familyList.getById(1));
+		Writable fileHandler = new FileHandler();
+		fileHandler.saveInFile(familyList);
+		System.out.println(familyList);
 		
+		System.out.println("---------------------");
 		
+//		FamilyTree familyList2 = (FamilyTree) fileHandler.loadFromFile();
+//		System.out.println(familyList2);
+		
+		// Урок 3 !!!!!!!!!!!
+		familyList.sortByName();
+		System.out.println(familyList);
+		
+		System.out.println("---------------------");
+		
+		familyList.sortByBirthDate();
+		System.out.println(familyList);
 	}
 
 }

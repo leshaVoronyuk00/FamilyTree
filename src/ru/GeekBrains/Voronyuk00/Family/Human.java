@@ -1,5 +1,6 @@
-package ru.GeekBrains.Voronyuk00.FamilyTree;
+package ru.GeekBrains.Voronyuk00.Family;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -7,14 +8,16 @@ import java.util.List;
 /**
  * Класс для создания человека
  */
-public class Human {
+public class Human implements Serializable, Comparable<Human>{
 	
+	private int id;
 	private String name;
 	private String surname;
 	private LocalDate dob, dod;
-	Gender gender;
-	List<Human> children;
-	Human father, mother;
+	private Gender gender;
+	private List<Human> children;
+	private Human father, mother;
+	private Human spouse;
 	/**
 	 * Конструктор для создания человека
 	 * @param name - имя человека
@@ -24,12 +27,13 @@ public class Human {
 	 * @param day - день рождения человека
 	 * @param gender - пол человека
 	 */
-	Human(String name, String surname, int year, int month,int day,Gender gender){
+	public Human(String name, String surname, int year, int month,int day,Gender gender){
 		this.name = name;
 		this.surname = surname;
 		this.dob = LocalDate.of(year, month, day);
 		this.gender = gender;
 		children = new ArrayList<>();
+		this.id = -1;
 	}
 	/**
 	 * Конструктор для создания человека
@@ -43,13 +47,9 @@ public class Human {
 	 * @param day2 - день смерти человека
 	 * @param gender - пол человека
 	 */
-	Human(String name, String surname, int year, int month,int day,int year2, int month2, int day2,Gender gender){
-		this.name = name;
-		this.surname = surname;
-		this.dob = LocalDate.of(year, month, day);
+	public Human(String name, String surname, int year, int month,int day,int year2, int month2, int day2,Gender gender){
+		this(name,surname, year, month,day,gender);
 		this.dod = LocalDate.of(year2, month2, day2);
-		this.gender = gender;
-		children = new ArrayList<>();
 	}
 	
 	/**
@@ -72,14 +72,18 @@ public class Human {
 	 * @param h - мать человека
 	 */
 	public void addMother(Human h) {
-		this.mother = h;
+		if(mother == null) {
+			this.mother = h;
+		}
 	}
 	/**
 	 * Добавление отца человека
 	 * @param h - отец человека
 	 */
 	public void addFather(Human h) {
-		this.father = h;
+		if(father == null) {
+			this.father = h;
+		}
 	}
 	/**
 	 * Метод для вывода матери человека
@@ -94,6 +98,11 @@ public class Human {
 	 */
 	public Human showFather() {
 		return this.mother;
+	}
+	
+	
+	public LocalDate getBirthDate() {
+		return this.dob;
 	}
 	/**
 	 * Метод для получения возраста
@@ -116,29 +125,72 @@ public class Human {
 	 * Метод для добавления ребенка
 	 * @param child - добавляемый ребёнок
 	 */
-	public void addChild(Human child) {
-		children.add(child);
+	public boolean addChild(Human child) {
+		if(!children.contains(child)) {
+			children.add(child);
+			return true;
+		}
+		return false;
+		
 	}
 	/**
 	 * Метод для демонстрации детей
 	 */
-	public void showChildren() {
+	public StringBuilder showChildren() {
+		StringBuilder txt = new StringBuilder();
 		boolean hasChildren = false;
+		
 		for(Human h : children) {
-			System.out.println(h);
+			txt.append(h);
+			txt.append("\n");
 			hasChildren = true;
 		}
 		
-		if(!hasChildren) {
-			System.out.println("Нет детей");
+		if(hasChildren) {
+			return txt;
 		}
+		else return null ;
+		
 	}
 	@Override
 	public String toString() {
-		return "Имя = " + name + ", фамилия = " + surname + ", дата рождения = " + dob  + ", пол = " + gender ;
+		return "Id: " + this.id +" Имя = " + name + ", фамилия = " + surname + ", дата рождения = " + dob  + ", пол = " + gender ;
+		
 	}
 	
+	public void setId(int id) {
+		this.id = id;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		if(obj == this) {
+			return true;
+		}
+		if(!(obj instanceof Human)) {
+			return false;
+		}
+		Human human = (Human) obj;
+		return human.getId() == getId();
+	}
 	
+	public int getId() {
+		return this.id;
+	}
+
+	public void setSpouse(Human h) {
+		if(spouse == null) {
+			this.spouse = h;
+		}
+	}
 	
+	public Human getSpouse() {
+		return this.spouse;
+	}
+	@Override
+	public int compareTo(Human o) {
+		// TODO Auto-generated method stub
+		return this.name.compareTo(o.getName());
+	}
 	
 }

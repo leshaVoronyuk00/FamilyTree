@@ -2,6 +2,9 @@ package ru.GeekBrains.Voronyuk00.Family;
 
 import java.io.IOException;
 
+import ru.GeekBrains.Voronyuk00.Family.mvp.ConsoleUI;
+import ru.GeekBrains.Voronyuk00.Family.mvp.View;
+
 public class App {
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
@@ -12,13 +15,15 @@ public class App {
 		Human person4 = new Human("Марина", "Воронюк",2000,10,5,Gender.female);
 		Human person5 = new Human("Галина","Агафонова", 1940,8,14,2017,9,11,Gender.female);
 		
+		
 		// Создание семейного дерева
-		FamilyTree familyList = new FamilyTree();
-		familyList.addPerson(person1);
-		familyList.addPerson(person2);
-		familyList.addPerson(person3);
-		familyList.addPerson(person4);
-		familyList.addPerson(person5);
+		FamilyTree<Human> familyList = new FamilyTree<>();
+		familyList.addElement(person1);
+		familyList.addElement(person2);
+		familyList.addElement(person3);
+		familyList.addElement(person4);
+		familyList.addElement(person5);
+		
 		
 		person1.addChild(person3);
 		person1.addChild(person4);
@@ -49,13 +54,20 @@ public class App {
 //		System.out.println(familyList2);
 		
 		// Урок 3 !!!!!!!!!!!
-		familyList.sortByName();
-		System.out.println(familyList);
+//		familyList.sortByName();
+//		System.out.println(familyList);
+//		
+//		System.out.println("---------------------");
+//		
+//		familyList.sortByBirthDate();
+//		System.out.println(familyList);
 		
-		System.out.println("---------------------");
+		// Урок 5 !!!!!!!!!!!!111111111111111111
 		
-		familyList.sortByBirthDate();
-		System.out.println(familyList);
+		View view = new ConsoleUI();
+		view.start();
+		
 	}
+	
 
 }

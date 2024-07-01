@@ -8,10 +8,10 @@ import java.util.List;
 /**
  * Класс для создания семейного дерева
  */
-public class FamilyTree implements Serializable, Iterable<Human>{
+public class FamilyTree<T extends FamilyItem<T>> implements Serializable, Iterable<T>{
 	
-	private List<Human> familyList;
-	private int humansId;
+	private List<T> familyList;
+	private int Id;
 	/**
 	 * Конструктор для создания семейного дерева
 	 */
@@ -19,10 +19,10 @@ public class FamilyTree implements Serializable, Iterable<Human>{
 		familyList = new ArrayList<>();
 	}
 	
-	public void addPerson(Human h) {
+	public void addElement(T h) {
 		 if(!familyList.contains(h)) {
 			familyList.add(h);
-			h.setId(humansId++);
+			h.setId(Id++);
 		 }
 			
 	}
@@ -39,14 +39,18 @@ public class FamilyTree implements Serializable, Iterable<Human>{
 		}
 	}
 	
+	public List<T> showFamilyList(){
+		return familyList;
+	}
+	
 	/**
 	 * 
 	 * @param name имя человека
 	 * @param surname фамилия человека
 	 * @return информация о человеке
 	 */
-	public Human searchPerson(String name, String surname) {
-		for(Human h : familyList) {
+	public T searchElement(String name, String surname) {
+		for(T h : familyList) {
 			if(h.getName().equalsIgnoreCase(name) && h.getSurname().equalsIgnoreCase(surname)) {
 				return h;
 			}
@@ -55,8 +59,8 @@ public class FamilyTree implements Serializable, Iterable<Human>{
 		
 	}
 	
-	public Human getById(int id) {
-		for(Human h : familyList) {
+	public T getById(int id) {
+		for(T h : familyList) {
 			if(h.getId() == id) {
 				return h;
 			}
@@ -65,7 +69,7 @@ public class FamilyTree implements Serializable, Iterable<Human>{
 	}
 	
 	private boolean checkId(int id) {
-		return id>= 0 && id < humansId;
+		return id>= 0 && id < Id;
 	}
 	
 	public boolean equals(Object obj) {
@@ -73,17 +77,17 @@ public class FamilyTree implements Serializable, Iterable<Human>{
 		if(obj == this) {
 			return true;
 		}
-		if(!(obj instanceof Human)) {
+		if(!((T)obj instanceof T)) {
 			return false;
 		}
-		Human human = (Human) obj;
-		return human.getId() != humansId;
+		T human = (T) obj;
+		return human.getId() != Id;
 	}
 	
 	
 	public String toString() {
 		StringBuilder str = new StringBuilder();
-		for(Human h : familyList) {
+		for(T h : familyList) {
 			str.append(h);
 			str.append("\n");
 		}
@@ -92,17 +96,17 @@ public class FamilyTree implements Serializable, Iterable<Human>{
 	}
 
 	@Override
-	public Iterator<Human> iterator() {
+	public Iterator<T> iterator() {
 		// TODO Auto-generated method stub
-		return new FamilyTreeIterator(familyList);
+		return new FamilyTreeIterator<>(familyList);
 	}
 	
 	public void sortByName() {
-		Collections.sort(familyList);
+		Collections.sort(familyList, new ElementComparatorByName<>());
 	}
 	
 	public void sortByBirthDate() {
-		Collections.sort(familyList ,new HumanComparatorByBirthDate());
+		Collections.sort(familyList ,new ElementComparatorByBirthDate<>());
 	}
 	
 	

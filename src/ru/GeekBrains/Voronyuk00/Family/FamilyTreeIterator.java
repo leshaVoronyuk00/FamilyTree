@@ -3,12 +3,12 @@ package ru.GeekBrains.Voronyuk00.Family;
 import java.util.Iterator;
 import java.util.List;
 
-public class FamilyTreeIterator implements Iterator<Human>{
+public class FamilyTreeIterator<E> implements Iterator<E>{
 
 	private int familyId;
-	private List<Human> familyList;
+	private List<E> familyList;
 	
-	public FamilyTreeIterator(List<Human> familyList) {
+	public FamilyTreeIterator(List<E> familyList) {
 		this.familyList = familyList;
 	}
 	@Override
@@ -17,7 +17,7 @@ public class FamilyTreeIterator implements Iterator<Human>{
 	}
 
 	@Override
-	public Human next() {
+	public E next() {
 		// TODO Auto-generated method stub
 		return familyList.get(familyId++);
 	}

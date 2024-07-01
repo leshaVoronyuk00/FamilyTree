@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Класс для создания человека
  */
-public class Human implements Serializable, Comparable<Human>{
+public class Human implements Serializable,FamilyItem<Human>, Comparable<Human>{
 	
 	private int id;
 	private String name;
@@ -100,8 +100,8 @@ public class Human implements Serializable, Comparable<Human>{
 		return this.mother;
 	}
 	
-	
-	public LocalDate getBirthDate() {
+	@Override
+	public LocalDate getdob() {
 		return this.dob;
 	}
 	/**
@@ -136,7 +136,7 @@ public class Human implements Serializable, Comparable<Human>{
 	/**
 	 * Метод для демонстрации детей
 	 */
-	public StringBuilder showChildren() {
+	public String showChildren() {
 		StringBuilder txt = new StringBuilder();
 		boolean hasChildren = false;
 		
@@ -147,7 +147,7 @@ public class Human implements Serializable, Comparable<Human>{
 		}
 		
 		if(hasChildren) {
-			return txt;
+			return txt.toString();
 		}
 		else return null ;
 		
@@ -193,4 +193,6 @@ public class Human implements Serializable, Comparable<Human>{
 		return this.name.compareTo(o.getName());
 	}
 	
+	
+		
 }
